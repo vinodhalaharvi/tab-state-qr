@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head><title>Generate Icons</title></head>
+<body>
+<canvas id="c16" width="16" height="16"></canvas>
+<canvas id="c48" width="48" height="48"></canvas>
+<canvas id="c128" width="128" height="128"></canvas>
+<script>
+function drawIcon(ctx, size) {
+  const s = size / 128;
+  // Gradient background
+  const grad = ctx.createLinearGradient(0, 0, size, size);
+  grad.addColorStop(0, '#5865f2');
+  grad.addColorStop(1, '#eb459e');
+  
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.roundRect(0, 0, size, size, 20 * s);
+  ctx.fill();
+  
+  ctx.fillStyle = '#fff';
+  // QR corners
+  ctx.fillRect(24*s, 24*s, 24*s, 24*s);
+  ctx.fillRect(80*s, 24*s, 24*s, 24*s);
+  ctx.fillRect(24*s, 80*s, 24*s, 24*s);
+  
+  // Inner squares (cut out)
+  ctx.fillStyle = grad;
+  ctx.fillRect(32*s, 32*s, 8*s, 8*s);
+  ctx.fillRect(88*s, 32*s, 8*s, 8*s);
+  ctx.fillRect(32*s, 88*s, 8*s, 8*s);
+  
+  // Center dots
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(56*s, 56*s, 16*s, 16*s);
+  ctx.fillRect(80*s, 80*s, 24*s, 24*s);
+}
+
+[16, 48, 128].forEach(size => {
+  const canvas = document.getElementById('c' + size);
+  const ctx = canvas.getContext('2d');
+  drawIcon(ctx, size);
+  
+  // Download link
+  const link = document.createElement('a');
+  link.download = `icon${size}.png`;
+  link.href = canvas.toDataURL();
+  link.textContent = `Download ${size}x${size}`;
+  document.body.appendChild(link);
+  document.body.appendChild(document.createElement('br'));
+});
+</script>
+</body>
+</html>

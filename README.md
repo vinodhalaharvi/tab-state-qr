@@ -142,4 +142,3 @@ The monoid structure ensures:
 ## License
 
 MIT - Use freely!
-# tab-state-qr
